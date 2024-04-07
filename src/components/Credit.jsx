@@ -1,12 +1,10 @@
 import React from 'react';
 
-function Credit({ updateCredits, index }) {
+function Credit({ updateCredits, balance }) {
     return (
-        <div>
-            <p>{credit.description}</p>
-            <p>{credit.amount}</p>
-            <p>{credit.date}</p>
-        </div>
+        <>
+            <h1> Credits </h1>
+        </>
     );
 }
 
