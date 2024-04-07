@@ -20,6 +20,7 @@ function App() {
   const mockLogIn = (logInInfo) => {
     const currentDate = new Date().toLocaleDateString();
 
+    // set username and member since date
     setUser((prevState) => ({
       ...prevState,
       currentUser: { 
@@ -34,6 +35,8 @@ function App() {
       userName: logInInfo.userName,
       memberSince: currentDate
     }));
+
+    // Set loggedIn to true for view changes
     localStorage.setItem('loggedIn', true);
   };
 
@@ -61,12 +64,27 @@ function App() {
 
   }, []);
 
+  const handleLogout = () => {
+    localStorage.clear();
+
+    setUser({
+        accountBalance: 0,
+        creditList: [],
+        debitList: [],
+        currentUser: {
+            userName: '',
+            memberSince: '',
+        },
+        loggedIn: false,
+    });
+};
+
   return (
     <>
     <Router loggedIn = {user.loggedIn}>
       <div className="App">
         <Routes>
-          <NavBar />
+        <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
           <Route path="/" element={<Home balance={user.accountBalance} />} />
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
           <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
