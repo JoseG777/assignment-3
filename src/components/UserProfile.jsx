@@ -1,12 +1,12 @@
 import React from 'react';
-//  <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
 
-function UserProfile({ userName, memberSince }) {
+const UserProfile = ({ userName, memberSince }) => {
     return (
         <>
-            <h1>User Profile</h1>
+            <h1> User Profile </h1>
+            <p> Username : {userName} </p>
+            <p> Member Since : {memberSince} </p>
         </>
-    );
+    )
 }
-
 export default UserProfile;
