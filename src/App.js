@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Credits from './components/Credit';
 import Debits from './components/Debit';
 import UserProfile from './components/UserProfile';
+import NavBar from './components/NavBar';
 
 function App() {
   const [user, setUser] = useState({
@@ -21,6 +22,7 @@ function App() {
     <Router loggedIn = {user.loggedIn}>
       <div className="App">
         <Routes>
+          <NavBar />
           <Route path="/" element={<Home balance={user.accountBalance} />} />
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
           <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
