@@ -82,9 +82,9 @@ function App() {
   return (
     <>
     <Router loggedIn = {user.loggedIn}>
+    <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
       <div className="App">
         <Routes>
-        <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
           <Route path="/" element={<Home balance={user.accountBalance} />} />
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
           <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
