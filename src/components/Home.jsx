@@ -1,7 +1,7 @@
 import React from 'react';
 //<Route path="/" element={<Home balance={user.accountBalance} />} />
 
-function Home(balance) {
+function Home({ balance, loggedIn }) {
     return (
         <>
             <h1>Home</h1>
