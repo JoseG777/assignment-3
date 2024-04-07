@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Credit({ updateCredits, balance }) {
+function Credits({ updateCredits, balance }) {
     //
     return (
         <>
@@ -9,4 +9,4 @@ function Credit({ updateCredits, balance }) {
     );
 }
 
-export default Credit;
+export default Credits;
