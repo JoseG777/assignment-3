@@ -64,12 +64,27 @@ function App() {
 
   }, []);
 
+  const handleLogout = () => {
+    localStorage.clear();
+
+    setUser({
+        accountBalance: 0,
+        creditList: [],
+        debitList: [],
+        currentUser: {
+            userName: '',
+            memberSince: '',
+        },
+        loggedIn: false,
+    });
+};
+
   return (
     <>
     <Router loggedIn = {user.loggedIn}>
       <div className="App">
         <Routes>
-          <NavBar />
+        <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
           <Route path="/" element={<Home balance={user.accountBalance} />} />
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
           <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
