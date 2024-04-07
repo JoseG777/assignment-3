@@ -24,11 +24,15 @@ function App() {
     <Router loggedIn = {user.loggedIn}>
       <div className="App">
         <Routes>
-          <NavBar />
-          <Route path="/" element={<Home balance={user.accountBalance} />} />
+      
+          <Route path="/" element={<Home balance={user.accountBalance} loggedIn={user.loggedIn} userName={user.currentUser.userName} />} />
+
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
+
           <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
+
           <Route path="/credits" element={<Credits updateCredits={updateCredits} balance={user.accountBalance} />} />
+
           <Route path="/debits" element={<Debits updateDebits={updateDebits} balance={user.accountBalance}/>} />
         </Routes>
       </div>
