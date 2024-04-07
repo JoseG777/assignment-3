@@ -17,7 +17,49 @@ function App() {
     loggedIn: false,
   });
 
-  // comment for pr, git merge NavBar from main file didn't show pull request
+  const mockLogIn = (logInInfo) => {
+    const currentDate = new Date().toLocaleDateString();
+
+    setUser((prevState) => ({
+      ...prevState,
+      currentUser: { 
+        userName: logInInfo.userName, 
+        memberSince: currentDate 
+      },
+      loggedIn: true,
+    }));
+    
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('user', JSON.stringify({
+      userName: logInInfo.userName,
+      memberSince: currentDate
+    }));
+    localStorage.setItem('loggedIn', true);
+  };
+
+  // For when a user wants to add credits
+  const updateCredits = useCallback((newCredits) => {
+    setUser((prevState) => ({
+      ...prevState,
+      creditList: newCredits,
+    }));
+
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('credits', JSON.stringify(newCredits));
+  }, []);
+  
+  // For when a user wants to add debits
+  const updateDebits = useCallback((newDebits) => {
+
+    setUser((prevState) => ({
+      ...prevState,
+      debitList: newDebits,
+    }));
+
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('debits', JSON.stringify(newDebits));
+
+  }, []);
 
   return (
     <>
