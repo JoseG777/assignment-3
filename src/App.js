@@ -37,6 +37,30 @@ function App() {
     localStorage.setItem('loggedIn', true);
   };
 
+  // For when a user wants to add credits
+  const updateCredits = useCallback((newCredits) => {
+    setUser((prevState) => ({
+      ...prevState,
+      creditList: newCredits,
+    }));
+
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('credits', JSON.stringify(newCredits));
+  }, []);
+  
+  // For when a user wants to add debits
+  const updateDebits = useCallback((newDebits) => {
+
+    setUser((prevState) => ({
+      ...prevState,
+      debitList: newDebits,
+    }));
+
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('debits', JSON.stringify(newDebits));
+
+  }, []);
+
   return (
     <>
     <Router loggedIn = {user.loggedIn}>
