@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from '../logo.svg';
+import { Link } from 'react-router-dom';
+import AccountBalance from './AccountBalance';
 
 function Home({ balance, loggedIn, userName }) {
 
