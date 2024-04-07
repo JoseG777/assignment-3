@@ -8,3 +8,5 @@ function UserProfile({ userName, memberSince }) {
         </>
     );
 }
+
+export default UserProfile;
