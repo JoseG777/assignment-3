@@ -20,6 +20,7 @@ function App() {
   const mockLogIn = (logInInfo) => {
     const currentDate = new Date().toLocaleDateString();
 
+    // set username and member since date
     setUser((prevState) => ({
       ...prevState,
       currentUser: { 
@@ -34,6 +35,8 @@ function App() {
       userName: logInInfo.userName,
       memberSince: currentDate
     }));
+
+    // Set loggedIn to true for view changes
     localStorage.setItem('loggedIn', true);
   };
 
