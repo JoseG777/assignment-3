@@ -1,11 +1,28 @@
 import React from 'react';
-//<Route path="/" element={<Home balance={user.accountBalance} />} />
+import logo from '../logo.svg';
 
-function Home({ balance, loggedIn }) {
+function Home({ balance, loggedIn, userName }) {
+
     return (
         <>
-            <h1>Home</h1>
-            <h2>Account Balance: ${balance}</h2>
+            <img src={logo} className="App-logo" alt="logo" />
+
+            {loggedIn ?
+                (
+                    <>
+                        <h1>Welcome, {userName}</h1>
+                        <AccountBalance balance={balance} />
+                    </>
+                )
+                :
+                (
+
+                    <h1>Please <Link to="/login"> log in </Link> to use the Bank of React</h1>
+
+                )
+            }
+
+
         </>
     );
 }
