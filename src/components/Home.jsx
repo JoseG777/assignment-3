@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../logo.svg';
 
 function Home({ balance, loggedIn, userName }) {
+
     return (
         <>
             <img src={logo} className="App-logo" alt="logo" />

@@ -17,15 +17,105 @@ function App() {
     loggedIn: false,
   });
 
-  // comment for pr, git merge NavBar from main file didn't show pull request
+  // Using local storage, every time the user updates their credits or debits, the account balance will be updated as well
+  useEffect(() => {
+    const savedCredits = JSON.parse(localStorage.getItem('credits')) || [];
+    const savedDebits = JSON.parse(localStorage.getItem('debits')) || [];
+    const savedUser = JSON.parse(localStorage.getItem('user')) || { userName: '', memberSince: '' };
+    const loggedIn = JSON.parse(localStorage.getItem('loggedIn')) || false;
+    let accountBalanceCalculation = 0;
+
+    for (let credit of savedCredits) {
+      accountBalanceCalculation += parseFloat(credit.amount);
+    }
+    for (let debit of savedDebits) {
+      accountBalanceCalculation -= parseFloat(debit.amount);
+    }
+
+    accountBalanceCalculation = accountBalanceCalculation.toFixed(2);
+
+    setUser((prevState) => ({
+      ...prevState,
+      accountBalance: accountBalanceCalculation,
+      creditList: savedCredits,
+      debitList: savedDebits,
+      currentUser: savedUser,
+      loggedIn: loggedIn,
+    }));
+    // eslint-disable-next-line
+  }, [user.creditList, user.debitList]);
+
+  const mockLogIn = (logInInfo) => {
+    const currentDate = new Date().toLocaleDateString();
+
+    // set username and member since date
+    setUser((prevState) => ({
+      ...prevState,
+      currentUser: { 
+        userName: logInInfo.userName, 
+        memberSince: currentDate 
+      },
+      loggedIn: true,
+    }));
+    
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('user', JSON.stringify({
+      userName: logInInfo.userName,
+      memberSince: currentDate
+    }));
+
+    // Set loggedIn to true for view changes
+    localStorage.setItem('loggedIn', true);
+  };
+
+  // For when a user wants to add credits
+  const updateCredits = useCallback((newCredits) => {
+    setUser((prevState) => ({
+      ...prevState,
+      creditList: newCredits,
+    }));
+
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('credits', JSON.stringify(newCredits));
+  }, []);
+  
+  // For when a user wants to add debits
+  const updateDebits = useCallback((newDebits) => {
+
+    setUser((prevState) => ({
+      ...prevState,
+      debitList: newDebits,
+    }));
+
+    // Use local storage to save beyond page refresh
+    localStorage.setItem('debits', JSON.stringify(newDebits));
+
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.clear();
+
+    setUser({
+        accountBalance: 0,
+        creditList: [],
+        debitList: [],
+        currentUser: {
+            userName: '',
+            memberSince: '',
+        },
+        loggedIn: false,
+    });
+};
 
   return (
     <>
     <Router loggedIn = {user.loggedIn}>
+    <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
       <div className="App">
         <Routes>
       
           <Route path="/" element={<Home balance={user.accountBalance} loggedIn={user.loggedIn} userName={user.currentUser.userName} />} />
+
 
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
 
@@ -34,6 +124,7 @@ function App() {
           <Route path="/credits" element={<Credits updateCredits={updateCredits} balance={user.accountBalance} />} />
 
           <Route path="/debits" element={<Debits updateDebits={updateDebits} balance={user.accountBalance}/>} />
+
         </Routes>
       </div>
     </Router>
