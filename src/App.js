@@ -17,6 +17,8 @@ function App() {
     loggedIn: false,
   });
 
+  // comment for pr, git merge NavBar from main file didn't show pull request
+
   return (
     <>
     <Router loggedIn = {user.loggedIn}>
