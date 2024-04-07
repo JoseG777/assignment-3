@@ -1,7 +1,6 @@
-import e from "express";
+
 import React from "react";
 
-//<Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
 function Login({ mockLogIn }) {
     return (
         <div>
