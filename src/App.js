@@ -17,6 +17,34 @@ function App() {
     loggedIn: false,
   });
 
+  // Using local storage, every time the user updates their credits or debits, the account balance will be updated as well
+  useEffect(() => {
+    const savedCredits = JSON.parse(localStorage.getItem('credits')) || [];
+    const savedDebits = JSON.parse(localStorage.getItem('debits')) || [];
+    const savedUser = JSON.parse(localStorage.getItem('user')) || { userName: '', memberSince: '' };
+    const loggedIn = JSON.parse(localStorage.getItem('loggedIn')) || false;
+    let accountBalanceCalculation = 0;
+
+    for (let credit of savedCredits) {
+      accountBalanceCalculation += parseFloat(credit.amount);
+    }
+    for (let debit of savedDebits) {
+      accountBalanceCalculation -= parseFloat(debit.amount);
+    }
+
+    accountBalanceCalculation = accountBalanceCalculation.toFixed(2);
+
+    setUser((prevState) => ({
+      ...prevState,
+      accountBalance: accountBalanceCalculation,
+      creditList: savedCredits,
+      debitList: savedDebits,
+      currentUser: savedUser,
+      loggedIn: loggedIn,
+    }));
+    // eslint-disable-next-line
+  }, [user.creditList, user.debitList]);
+
   const mockLogIn = (logInInfo) => {
     const currentDate = new Date().toLocaleDateString();
 
@@ -66,12 +94,17 @@ function App() {
     <Router loggedIn = {user.loggedIn}>
       <div className="App">
         <Routes>
-          <NavBar />
+
           <Route path="/" element={<Home balance={user.accountBalance} />} />
+
           <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
+
           <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
+
           <Route path="/credits" element={<Credits updateCredits={updateCredits} balance={user.accountBalance} />} />
+
           <Route path="/debits" element={<Debits updateDebits={updateDebits} balance={user.accountBalance}/>} />
+
         </Routes>
       </div>
     </Router>
