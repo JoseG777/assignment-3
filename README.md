@@ -1,4 +1,4 @@
-# Banl-Of-React
+# Bank-Of-React
 This repository is the starter code for Assignment 3 - Bank Of React.
 
 ## Team member(s)
