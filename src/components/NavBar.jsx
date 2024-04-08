@@ -18,7 +18,7 @@ const NavBar = ({ loggedIn, onLogout }) => {
             <header className="App-header">
                 <div className="logo-container">
                     <img src={logo} className="App-logo" alt="logo" />
-                    <h1>Bank of React</h1>
+                    <h1><Link to="/" className="nav-link">Bank of React</Link></h1>
                 </div>
                 <nav className="nav-container">
                     <Link to="/" className="nav-link">Home</Link>
