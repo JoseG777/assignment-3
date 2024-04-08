@@ -10,11 +10,11 @@ const Credits = ({ updateCredits, balance }) => {
 
     useEffect(() => {
         const storedCredits = localStorage.getItem('credits') ? JSON.parse(localStorage.getItem('credits')) : [];
+        setData(storedDebits.length > 0 ? storedDebits : []);
 
-        if (storedCredits.length > 0) {
-            setData(storedCredits);
-        } else {
-            const fetchCredits = async () => {
+
+        const fetchCredits = async () => {
+            if (storedCredits.length === 0) {
                 try {
                     const response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
                     const fetchedCredits = response.data;
@@ -24,10 +24,11 @@ const Credits = ({ updateCredits, balance }) => {
                 } catch (error) {
                     setError(error.toString());
                 }
-            };
+            }
+        };
 
-            fetchCredits();
-        }
+        fetchCredits();
+
     }, [updateCredits]);
 
     const handleAddCredit = (event) => {
