@@ -154,7 +154,7 @@ function App() {
 
   return (
   <>
-    <Router>
+    <Router basename="/assignment-3">
       <div className="App">
 
         <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
