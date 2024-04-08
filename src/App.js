@@ -9,6 +9,8 @@ import UserProfile from './components/UserProfile';
 import NavBar from './components/NavBar';
 import axios from 'axios';
 
+// Throughout the code I use localStorage to save the user's data beyond page refreshes.
+
 function App() {
   const [user, setUser] = useState({
     accountBalance: 0,
@@ -20,23 +22,29 @@ function App() {
 
    // For when a user wants to add credits
    const updateCredits = useCallback((newCredits) => {
+
     setUser((prevState) => ({
       ...prevState,
       creditList: newCredits,
     }));
+
     // Use local storage to save beyond page refresh
     localStorage.setItem('credits', JSON.stringify(newCredits));
+
     // eslint-disable-next-line
   }, [user.debitList]);
   
   // For when a user wants to add debits
   const updateDebits = useCallback((newDebits) => {
+
     setUser((prevState) => ({
       ...prevState,
       debitList: newDebits,
     }));
+
     // Use local storage to save beyond page refresh
     localStorage.setItem('debits', JSON.stringify(newDebits));
+
     // eslint-disable-next-line
   }, [user.creditList]);
 
@@ -45,7 +53,8 @@ function App() {
     const storedCredits = localStorage.getItem('credits') ? JSON.parse(localStorage.getItem('credits')) : [];
 
     const fetchDebits = async () => {
-      if (storedDebits.length === 0) {
+      if (storedDebits.length === 0) 
+      {
           try {
               const response = await axios.get('https://johnnylaicode.github.io/api/debits.json');
               const fetchedDebits = response.data;
@@ -92,37 +101,6 @@ function App() {
 
     // eslint-disable-next-line 
   }, [user.loggedIn, updateCredits, updateDebits])
-
-
-  // Using local storage, every time the user updates their credits or debits, the account balance will be updated as well
-  
-  useEffect(() => {
-    const savedCredits = JSON.parse(localStorage.getItem('credits')) || [];
-    const savedDebits = JSON.parse(localStorage.getItem('debits')) || [];
-    const savedUser = JSON.parse(localStorage.getItem('user')) || { userName: '', memberSince: '' };
-    const loggedIn = JSON.parse(localStorage.getItem('loggedIn')) || false;
-    let accountBalanceCalculation = 0;
-
-    for (let credit of savedCredits) {
-      accountBalanceCalculation += parseFloat(credit.amount);
-    }
-    for (let debit of savedDebits) {
-      accountBalanceCalculation -= parseFloat(debit.amount);
-    }
-
-    accountBalanceCalculation = accountBalanceCalculation.toFixed(2);
-
-    setUser((prevState) => ({
-      ...prevState,
-      accountBalance: accountBalanceCalculation,
-      // creditList: savedCredits,
-      // debitList: savedDebits,
-      currentUser: savedUser,
-      loggedIn: loggedIn,
-    }));
-    // eslint-disable-next-line
-  }, [/*user.creditList, user.debitList*/]);
-
 
   const mockLogIn = (logInInfo) => {
     const currentDate = new Date().toLocaleDateString();
