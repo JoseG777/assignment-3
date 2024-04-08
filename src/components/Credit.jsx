@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState /*, useEffect */ } from 'react';
 import AccountBalance from './AccountBalance';
-import axios from 'axios';
+// import axios from 'axios';
 
 const Credits = ({ updateCredits, balance }) => {
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(null);
+    // const [data, setData] = useState([]);
+    // const [error, setError] = useState(null);
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
 
+    /*
     useEffect(() => {
         const storedCredits = localStorage.getItem('credits') ? JSON.parse(localStorage.getItem('credits')) : [];
 
@@ -29,6 +30,7 @@ const Credits = ({ updateCredits, balance }) => {
             fetchCredits();
         }
     }, [updateCredits]);
+    */
 
     const handleAddCredit = (event) => {
         event.preventDefault();
