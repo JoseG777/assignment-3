@@ -5,9 +5,14 @@ import AccountBalance from './AccountBalance';
 
 function Home({ balance, loggedIn, userName }) {
 
+    const logoStyle = {
+        height: '20vmin',
+        width: 'auto'
+    };
+
     return (
         <>
-            <img src={logo} className="App-logo" alt="logo" />
+            <img src={logo} className="App-logo" alt="logo" style={logoStyle} />
 
             {loggedIn ?
                 (
@@ -18,7 +23,6 @@ function Home({ balance, loggedIn, userName }) {
                 )
                 :
                 (
-
                     <h1>Please <Link to="/login"> log in </Link> to use the Bank of React</h1>
 
                 )

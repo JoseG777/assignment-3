@@ -20,6 +20,18 @@ function App() {
     loggedIn: false,
   });
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+    const storedLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+    setUser((prevState) => ({
+      ...prevState,
+      currentUser: storedUser,
+      loggedIn: storedLoggedIn,
+    }));
+
+  }, []);
+
    // For when a user wants to add credits
    const updateCredits = useCallback((newCredits) => {
 
@@ -141,27 +153,31 @@ function App() {
 };
 
   return (
-    <>
-    <Router loggedIn = {user.loggedIn}>
-    <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
+  <>
+    <Router>
       <div className="App">
-        <Routes>
-      
-          <Route path="/" element={<Home balance={user.accountBalance} loggedIn={user.loggedIn} userName={user.currentUser.userName} />} />
 
+        <NavBar loggedIn={user.loggedIn} onLogout={handleLogout} />
 
-          <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
+        <div className="route-content">
+          <Routes>
 
-          <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} />} />
+            <Route path="/" element={<Home balance={user.accountBalance} loggedIn={user.loggedIn} userName={user.currentUser.userName}/>} />
 
-          <Route path="/credits" element={<Credits updateCredits={updateCredits} balance={user.accountBalance} />} />
+            <Route path="/login" element={<Login mockLogIn={mockLogIn} />} />
 
-          <Route path="/debits" element={<Debits updateDebits={updateDebits} balance={user.accountBalance}/>} />
+            <Route path="/profile" element={<UserProfile userName={user.currentUser.userName} memberSince={user.currentUser.memberSince} balance={user.accountBalance}/>} />
 
-        </Routes>
+            <Route path="/credits" element={<Credits updateCredits={updateCredits} balance={user.accountBalance} />} />
+
+            <Route path="/debits" element={<Debits updateDebits={updateDebits} balance={user.accountBalance} />} />
+
+          </Routes>
+        </div>
       </div>
     </Router>
-    </>
+  </>
+
   );
 }
 
