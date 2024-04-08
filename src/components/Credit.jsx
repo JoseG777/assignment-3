@@ -10,7 +10,7 @@ const Credits = ({ updateCredits, balance }) => {
 
     useEffect(() => {
         const storedCredits = localStorage.getItem('credits') ? JSON.parse(localStorage.getItem('credits')) : [];
-        setData(storedDebits.length > 0 ? storedDebits : []);
+        setData(storedCredits.length > 0 ? storedCredits : []);
 
 
         const fetchCredits = async () => {
