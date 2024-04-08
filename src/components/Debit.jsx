@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AccountBalance from './AccountBalance';
 import axios from 'axios';
+import '../styles/Transactions.css';
 
 const Debits = ({ updateDebits, balance }) => {
     const [data, setData] = useState([]);
@@ -48,24 +49,44 @@ const Debits = ({ updateDebits, balance }) => {
 
     return (
         <>
-            <h1>Debits</h1>
-            {error && <p>Error: {error}</p>}
-            <ul>
-                {data.map((debit) => (
-                    <div key={debit.id}>
-                        {debit.description} - ${debit.amount} ({debit.date})
-                    </div>
-                ))}
-            </ul>
-            <form onSubmit={handleAddDebit}>
-                <label>Description:</label>
-                <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-                <label>Amount:</label>
-                <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                <button type="submit">Add Debit</button>
-            </form>
+            <div className="transaction-container">
+                <h1 className="transaction-header">Debits</h1>
+                {error && <p>{error}</p>}
 
-            <AccountBalance balance={balance} />
+                <ul className="transaction-list">
+                    {data.map((debit) => (
+                        <div key={debit.id} className="transaction-item">
+                            {debit.description} - ${debit.amount} ({debit.date.slice(0, 10)})
+                        </div>
+                    ))}
+                </ul>
+
+                <form onSubmit={handleAddDebit} className="transaction-form">
+                    Add a new debit:
+                    <br />
+                    <label>
+                        Description:
+                        <input
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="transaction-input"
+                        />
+
+                        Amount:
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className="transaction-input"
+                        />
+
+                    </label>
+                    <button type="submit" className="transaction-button">Add Debit</button>
+                </form>
+
+                <AccountBalance balance={balance} />
+            </div>
         </>
     );
 };
