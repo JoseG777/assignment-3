@@ -7,6 +7,7 @@ import Credits from './components/Credit';
 import Debits from './components/Debit';
 import UserProfile from './components/UserProfile';
 import NavBar from './components/NavBar';
+import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState({
@@ -16,6 +17,66 @@ function App() {
     currentUser: { userName: '', memberSince: ''},
     loggedIn: false,
   });
+
+
+  useEffect(()=>{
+    const storedDebits = localStorage.getItem('debits') ? JSON.parse(localStorage.getItem('debits')) : [];
+
+    const fetchDebits = async () => {
+      if (storedDebits.length === 0) {
+          try {
+              const response = await axios.get('https://johnnylaicode.github.io/api/debits.json');
+              const fetchedDebits = response.data;
+              //setData(fetchedDebits);
+              localStorage.setItem('debits', JSON.stringify(fetchedDebits));
+              if (updateDebits) updateDebits(fetchedDebits);
+          } catch (error) {
+              console.log(error)
+          }
+      }
+    };
+
+    const storedCredits = localStorage.getItem('credits') ? JSON.parse(localStorage.getItem('credits')) : [];
+
+    const fetchCredits = async () => {
+      if(storedCredits.length === 0)
+      {
+      try {
+          const response = await axios.get('https://johnnylaicode.github.io/api/credits.json');
+          const fetchedCredits = response.data;
+          //setData(fetchedCredits);
+          localStorage.setItem('credits', JSON.stringify(fetchedCredits));
+          if (updateCredits) updateCredits(fetchedCredits);
+      } catch (error) {
+          console.log(error);
+      }
+    }
+  };
+
+    fetchDebits();
+    fetchCredits();
+
+    const savedCredits = JSON.parse(localStorage.getItem('credits'));
+    const savedDebits = JSON.parse(localStorage.getItem('debits'));
+    let accountBalanceCalculation = 0;
+
+    for (let credit of savedCredits) {
+      accountBalanceCalculation += parseFloat(credit.amount);
+    }
+    for (let debit of savedDebits) {
+      accountBalanceCalculation -= parseFloat(debit.amount);
+    }
+
+    accountBalanceCalculation = accountBalanceCalculation.toFixed(2);
+
+    setUser((prevState) => ({
+      ...prevState,
+      accountBalance: accountBalanceCalculation,
+    }));
+
+    // eslint-disable-next-line 
+  }, [])
+
 
   // Using local storage, every time the user updates their credits or debits, the account balance will be updated as well
   useEffect(() => {
